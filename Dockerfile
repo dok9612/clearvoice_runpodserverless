@@ -10,8 +10,18 @@ WORKDIR /app
 # 4. Copy the entire repository from your workspace into the container's /app folder
 COPY . /app
 
+# 4.5 Install critical system dependencies and audio libraries
+# The rm -rf command clears the apt cache to keep the final image size small
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    build-essential \
+    ffmpeg \
+    libsndfile1 \
+    && rm -rf /var/lib/apt/lists/*
+
 # 5. Install the global requirements
-RUN pip install -r requirements.txt
+# Using --no-cache-dir prevents pip from storing massive wheel files, saving GBs of space
+RUN pip install --no-cache-dir -r requirements.txt
 
 # 6. Move inside the specific package folder
 WORKDIR /app/clearvoice
