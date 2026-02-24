@@ -1,0 +1,12 @@
+cat << 'EOF' > .gitignore
+# Environments
+.venv/
+__pycache__/
+
+# Model weights and audio artifacts
+checkpoints/
+asset/
+*.wav
+*.pth
+*.bin
+EOF
